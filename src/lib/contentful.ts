@@ -6,7 +6,13 @@ export interface BlogPost {
   date: string;
   description: string;
   content: Document;
+  underContent: UnderContentBlock;
   slug: string;
+}
+
+export interface UnderContentBlock {
+  underTitle: string;
+  underContent: Document;
 }
 
 export const contentfulClient = contentful.createClient({

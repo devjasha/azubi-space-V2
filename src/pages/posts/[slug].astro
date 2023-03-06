@@ -1,42 +1,61 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import { contentfulClient } from "../../lib/contentful";
+import { contentfulClient, UnderContentBlock } from "../../lib/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 import type { BlogPost } from "../../lib/contentful";
 
 let post;
+let underPost;
 const { slug } = Astro.params;
 try {
   const data = await contentfulClient.getEntries<BlogPost>({
     content_type: "blogPost",
     "fields.slug": slug,
   });
-  const { title, date, content } = data.items[0].fields;
-  post = {
-    title,
+  const underData = await contentfulClient.getEntries<UnderContentBlock>({
+    content_type: "underContentBlock",
+  })
+post = data.items.map((item) => {
+  const { title, date, content } = item.fields;
+  return {
+    title, 
     date: new Date(date).toLocaleDateString(),
-    content: documentToHtmlString(content),
-  };
+    content: documentToHtmlString(content)
+  }
+})
+
+underPost = underData.items.map((item) => {
+  const { underTitle, underContent} = item.fields;
+  return {
+    underTitle,
+    underContent: documentToHtmlString(underContent)
+  }
+})
+
 } catch (error) {
   return Astro.redirect("/404");
 }
+
 ---
 <html lang="en">
   <head>
-    <title>{post?.title}</title>
+    <title>{post[0].title}</title>
   </head>
   <body class="flex flex-col items-center justify-center pt-10">
     <div class="w-7/12">
 
-    <h1 class="text-xl uppercase font-bold">{post?.title}</h1>
-    <time>{post?.date}</time>
-    <article class="mt-10" set:html={post?.content} />
-      </div>
+      <h1 class="text-xl uppercase font-bold">{post[0].title}</h1>
+      <time>{post[0].date}</time>
+
+      <article class="mt-10" set:html={post[0].content} />
+        
+      {underPost.map((post) => (
+      <div class="mt-10">
+        <h1 class="text-xl uppercase font-bold">{post.underTitle}</h1>
+        <article class="mt-5" set:html={post.underContent} />
+        </div>
+      ))}
+
+    </div>
   </body>
 </html>
 
-<style>
-  h1 {
-    margin-top: 25px;
-  }
-</style>
