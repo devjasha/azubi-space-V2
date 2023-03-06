@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Example from '../components/elements/exampleElement/example'
+
+/* import { contentfulClient } from '../lib/contentful'; */
+/* import type { BlogPost } from '../lib/contentful'; */
+/**/
+/* const entries = await contentfulClient.getEntries<BlogPost>({ */
+/*   content_type: 'blogPost' */
+/* }) */
+/**/
+/* const  posts = entries.items.map((item) => { */
+/*   const { title, date, description, slug } = item.fields */
+/*   return { */
+/*     title,  */
+/*     slug,  */
+/*     description, */
+/*     date: new Date(date).toLocaleDateString() */
+/*   } */
+/* }) */
+---
+
+<Layout title="Welcome to Astro.">
+	<main class="flex items-center justify-center h-screen w-full">
+    <div>
+      <Example />
+    </div>
+	</main>
+</Layout>
+
