@@ -25,9 +25,12 @@ try {
   <head>
     <title>{post?.title}</title>
   </head>
-  <body>
-    <h1>{post?.title}</h1>
+  <body class="flex flex-col items-center justify-center pt-10">
+    <div class="w-7/12">
+
+    <h1 class="text-xl uppercase font-bold">{post?.title}</h1>
     <time>{post?.date}</time>
-    <article set:html={post?.content} />
+    <article class="mt-10" set:html={post?.content} />
+      </div>
   </body>
 </html>
