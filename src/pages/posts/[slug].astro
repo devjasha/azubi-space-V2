@@ -1,32 +1,33 @@
 ---
+import Layout from "../../layouts/Layout.astro";
 import { contentfulClient } from "../../lib/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
 import type { BlogPost } from "../../lib/contentful";
 
-export async function getStaticPaths() {
-  const entries = await contentfulClient.getEntries<BlogPost>({
+let post;
+const { slug } = Astro.params;
+try {
+  const data = await contentfulClient.getEntries<BlogPost>({
     content_type: "blogPost",
+    "fields.slug": slug,
   });
-
-  const pages = entries.items.map((item) => ({
-    params: { slug: item.fields.slug },
-    props: {
-      title: item.fields.title,
-      content: documentToHtmlString(item.fields.content),
-      date: new Date(item.fields.date).toLocaleDateString(),
-    },
-  }));
-  return pages;
+  const { title, date, content } = data.items[0].fields;
+  post = {
+    title,
+    date: new Date(date).toLocaleDateString(),
+    content: documentToHtmlString(content),
+  };
+} catch (error) {
+  return Astro.redirect("/404");
 }
-const { content, title, date } = Astro.props;
 ---
 <html lang="en">
   <head>
-    <title>{title}</title>
+    <title>{post?.title}</title>
   </head>
   <body>
-    <h1>{title}</h1>
-    <time>{date}</time>
-    <article set:html={content} />
+    <h1>{post?.title}</h1>
+    <time>{post?.date}</time>
+    <article set:html={post?.content} />
   </body>
 </html>
