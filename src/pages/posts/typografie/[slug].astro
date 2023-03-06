@@ -1,0 +1,62 @@
+---
+import { contentfulClient, UnderContentTypo } from "../../../lib/contentful";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import type { BlogPostTypo } from "../../../lib/contentful";
+
+let post;
+let underPost;
+const { slug } = Astro.params;
+try {
+  const data = await contentfulClient.getEntries<BlogPostTypo>({
+    content_type: "blogPost",
+    "fields.slug": slug,
+  });
+  const underData = await contentfulClient.getEntries<UnderContentTypo>({
+    content_type: "underContentTypo",
+  })
+post = data.items.map((item) => {
+  const { title, date, content } = item.fields;
+  return {
+    title, 
+    date: new Date(date).toLocaleDateString(),
+    content: documentToHtmlString(content)
+  }
+})
+
+underPost = underData.items.map((item) => {
+  const { typoTitle, typoContent} = item.fields;
+  return {
+    typoTitle,
+    typoContent: documentToHtmlString(typoContent)
+  }
+})
+
+} catch (error) {
+  return Astro.redirect("/404");
+}
+
+---
+<html lang="en">
+  <head>
+    <title>{post[0].title}</title>
+    <meta charset="UTF-8" />
+  </head>
+  <body class="flex flex-col items-center justify-center pt-10">
+    <div class="w-7/12">
+
+      <h1 class="text-xl uppercase font-bold">{post[0].title}</h1>
+      <time>{post[0].date}</time>
+
+      <article class="mt-10" set:html={post[0].content} />
+        
+      {underPost.map((post) => (
+      <div class="mt-10">
+        <h1 class="text-xl uppercase font-bold">{post.typoTitle}</h1>
+        <article class="mt-5" set:html={post.typoContent} />
+        </div>
+      ))}
+
+    </div>
+  </body>
+</html>
+

@@ -15,6 +15,20 @@ export interface UnderContentBlock {
   underContent: Document;
 }
 
+export interface BlogPostTypo {
+  title: string;
+  date: string;
+  description: string;
+  content: Document;
+  underContent: UnderContentTypo;
+  slug: string;
+}
+
+export interface UnderContentTypo {
+  typoTitle: string;
+  typoContent: Document;
+}
+
 export const contentfulClient = contentful.createClient({
   space: import.meta.env.CONTENTFUL_SPACE_ID,
   accessToken: import.meta.env.DEV
