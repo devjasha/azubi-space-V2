@@ -23,7 +23,7 @@ const  posts = entries.items.map((item) => {
 	<main class="flex items-start justify-center h-screen w-full">
     <ul class="mt-20">
       {posts.map((post) => (
-        <li class="bg-white px-3 py-4 drop-shadow-lg rounded-lg">
+        <li class="bg-white px-3 py-4 drop-shadow-lg rounded-lg mb-10">
           <a href={`/posts/${post.slug}/`}>
             <h2>{post.title}</h2>
           </a>
