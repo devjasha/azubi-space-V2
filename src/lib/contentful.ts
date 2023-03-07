@@ -29,6 +29,20 @@ export interface UnderContentTypo {
   typoContent: Document;
 }
 
+export interface BlogPostColor {
+  title: string;
+  date: string;
+  description: string;
+  content: Document;
+  underContent: underContentFarbmischsysteme;
+  slug: string;
+}
+
+export interface underContentFarbmischsysteme {
+  colorTitle: string;
+  colorContent: Document;
+}
+
 export const contentfulClient = contentful.createClient({
   space: import.meta.env.CONTENTFUL_SPACE_ID,
   accessToken: import.meta.env.DEV
