@@ -1,18 +1,18 @@
 ---
-import { contentfulClient, UnderContentMedienproduktion } from "../../../lib/contentful";
+import { contentfulClient, UnderContentBilderErfassen } from "../../../lib/contentful";
 import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
-import type { BlogPostMedien } from "../../../lib/contentful";
+import type { BlogPostBilderErfassen } from "../../../lib/contentful";
 
 let post;
 let underPost;
 const { slug } = Astro.params;
 try {
-  const data = await contentfulClient.getEntries<BlogPostMedien>({
+  const data = await contentfulClient.getEntries<BlogPostBilderErfassen>({
     content_type: "blogPost",
     "fields.slug": slug,
   });
-  const underData = await contentfulClient.getEntries<UnderContentMedienproduktion>({
-    content_type: "underContentMedienproduktion",
+  const underData = await contentfulClient.getEntries<UnderContentBilderErfassen>({
+    content_type: "underContentBilderErfassen",
   })
 post = data.items.map((item) => {
   const { title, date, content } = item.fields;
@@ -24,10 +24,10 @@ post = data.items.map((item) => {
 })
 
 underPost = underData.items.map((item) => {
-  const { medienTitle, medienContent} = item.fields;
+  const { bilderTitle, bilderContent} = item.fields;
   return {
-    medienTitle,
-    medienContent: documentToHtmlString(medienContent)
+    bilderTitle,
+    bilderContent: documentToHtmlString(bilderContent)
   }
 })
 
@@ -51,8 +51,8 @@ underPost = underData.items.map((item) => {
         
       {underPost.map((post) => (
       <div class="mt-10">
-        <h1 class="text-xl uppercase font-bold">{post.medienTitle}</h1>
-        <article class="mt-5" set:html={post.medienContent} />
+        <h1 class="text-xl uppercase font-bold">{post.bilderTitle}</h1>
+        <article class="mt-5" set:html={post.bilderContent} />
         </div>
       ))}
 

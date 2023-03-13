@@ -12,7 +12,7 @@ try {
     "fields.slug": slug,
   });
   const underData = await contentfulClient.getEntries<UnderContentBilderInHtml>({
-    content_type: "underContentTypo",
+    content_type: "underContentBilderInHtml",
   })
 post = data.items.map((item) => {
   const { title, date, content } = item.fields;
@@ -51,8 +51,8 @@ underPost = underData.items.map((item) => {
         
       {underPost.map((post) => (
       <div class="mt-10">
-        <h1 class="text-xl uppercase font-bold">{post.typoTitle}</h1>
-        <article class="mt-5" set:html={post.typoContent} />
+        <h1 class="text-xl uppercase font-bold">{post.htmlImageTitle}</h1>
+        <article class="mt-5" set:html={post.htmlImageContent} />
         </div>
       ))}
 

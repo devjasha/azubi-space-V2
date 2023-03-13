@@ -71,6 +71,33 @@ export interface UnderContentBilderInHtml {
   htmlImageContent: Document;
 }
 
+export interface BlogPostBilderErfassen {
+  title: string;
+  date: string;
+  description: string;
+  content: Document;
+  underContent: UnderContentBilderErfassen;
+  slug: string;
+}
+
+export interface UnderContentBilderErfassen {
+  bilderTitle: string;
+  bilderContent: Document;
+}
+
+export interface BlogPostDigitaleAussenwerbung {
+  title: string;
+  date: string;
+  description: string;
+  content: Document;
+  underContent: UnderContentDigitaleAussenwerbung;
+  slug: string;
+}
+
+export interface UnderContentDigitaleAussenwerbung {
+  digitalTitle: string;
+  digitalContent: Document;
+}
 export const contentfulClient = contentful.createClient({
   space: import.meta.env.CONTENTFUL_SPACE_ID,
   accessToken: import.meta.env.DEV
