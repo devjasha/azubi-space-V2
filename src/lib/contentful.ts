@@ -34,13 +34,41 @@ export interface BlogPostColor {
   date: string;
   description: string;
   content: Document;
-  underContent: underContentFarbmischsysteme;
+  underContent: UnderContentFarbmischsysteme;
   slug: string;
 }
 
-export interface underContentFarbmischsysteme {
+export interface UnderContentFarbmischsysteme {
   colorTitle: string;
   colorContent: Document;
+}
+
+export interface BlogPostMedien {
+  title: string;
+  date: string;
+  description: string;
+  content: Document;
+  underContent: UnderContentMedienproduktion;
+  slug: string;
+}
+
+export interface UnderContentMedienproduktion {
+  medienTitle: string;
+  medienContent: Document;
+}
+
+export interface BlogPostImagesInHtml {
+  title: string;
+  date: string;
+  description: string;
+  content: Document;
+  underContent: UnderContentBilderInHtml;
+  slug: string;
+}
+
+export interface UnderContentBilderInHtml {
+  htmlImageTitle: string;
+  htmlImageContent: Document;
 }
 
 export const contentfulClient = contentful.createClient({
